@@ -11,6 +11,9 @@
     "@slidev/cli": "^51.0.2",
     "@slidev/theme-default": "latest",
     "@slidev/theme-seriph": "latest",
+    "myyebook": "file:",
+    "slidev-addon-excalidraw": "^1.0.4",
+    "slidev-component-scroll": "^1.1.0",
     "vue": "^3.5.13"
   }
 }

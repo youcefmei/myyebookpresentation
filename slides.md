@@ -20,6 +20,9 @@ drawings:
 transition: slide-left
 # enable MDC Syntax: https://sli.dev/features/mdc
 mdc: true
+addons:
+  - excalidraw
+  - slidev-component-scroll
 ---
 
 # Welcome to Slidev
@@ -42,6 +45,171 @@ Presentation slides for developers
 <!--
 The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
 -->
+
+
+---
+layout: center
+---
+# Introduction
+
+Voici un diagramme PlantUML :
+
+<div class="flex">
+
+<div class="flex pa-18">
+
+```plantuml
+@startuml
+!theme sunlust
+' !theme reddress-lightblue
+skinparam usecase {
+BackgroundColor DarkSeaGreen
+BorderColor DarkSlateGray
+
+BackgroundColor<< Main >> YellowGreen
+BorderColor<< Main >> YellowGreen
+
+ArrowColor Olive
+ActorBorderColor black
+ActorFontName Courier
+
+' ActorBackgroundColor<< Human >> DarkSeaGreen
+}
+
+
+left to right direction
+actor Visiteur as v
+
+
+rectangle "MYYEBOOK ( Visiteur )" {
+  usecase "Consulter livres\nRechercher livre" as UC_consulter_livre
+  usecase "Creer un compte abonne" as UC_creer_compte_abonne
+}
+
+v --> UC_consulter_livre
+v --> UC_creer_compte_abonne
+
+@enduml
+
+```
+
+</div>
+
+
+```plantuml
+@startuml
+!theme sunlust
+' !theme reddress-lightblue
+skinparam usecase {
+BackgroundColor DarkSeaGreen
+BorderColor DarkSlateGray
+
+BackgroundColor<< Main >> YellowGreen
+BorderColor<< Main >> YellowGreen
+
+ArrowColor Olive
+ActorBorderColor black
+ActorFontName Courier
+
+' ActorBackgroundColor<< Human >> DarkSeaGreen
+}
+
+
+left to right direction
+actor Abonne as a
+
+rectangle "MYYEBOOK ( Abonne )" {
+  usecase "Consulter livres\nRechercher livre" as UC_consulter_livre_abo
+  usecase "Consulter compte\nModifier compte" as UC_compte
+  usecase "Emprunter un livre" as UC_emprunter
+  usecase "Lister emprunts" as UC_liste_emprunt
+
+}
+
+a --> UC_emprunter
+a --> UC_liste_emprunt
+a --> UC_compte
+a --> UC_consulter_livre_abo
+
+@enduml
+
+```
+
+```plantuml
+@startuml
+!theme sunlust
+' !theme reddress-lightblue
+skinparam usecase {
+BackgroundColor DarkSeaGreen
+BorderColor DarkSlateGray
+
+BackgroundColor<< Main >> YellowGreen
+BorderColor<< Main >> YellowGreen
+
+ArrowColor Olive
+ActorBorderColor black
+ActorFontName Courier
+
+' ActorBackgroundColor<< Human >> DarkSeaGreen
+}
+
+
+left to right direction
+actor Libraire as l
+rectangle "MYYEBOOK ( Libraire )" {
+  usecase "Lister et CRUD livres" as UC_crud_livre
+  usecase "Lister et CRUD auteurs" as UC_crud_auteur
+  usecase "Lister et CRUD abonnes" as UC_crud_abonne
+  usecase "Lister et CRUD libraires" as UC_crud_libraire
+}
+l --> UC_crud_livre
+l --> UC_crud_auteur
+l --> UC_crud_abonne
+l --> UC_crud_libraire
+
+
+@enduml
+
+```
+
+</div>
+
+
+
+
+---
+layout: center
+
+---
+<div class="flex flex-col items-center" style="height: 300px; overflow-y: auto;">
+
+# Maquettage Mobile
+
+<Excalidraw
+  drawFilePath="./maquettage.excalidraw"
+  class="w-[700px] h-[400px]"
+  :darkMode="false"
+  :background="false"
+/>
+<Scroll/>
+</div>
+
+---
+layout: center
+
+---
+<div class="flex flex-col items-center" style="height: 300px; overflow-y: auto;">
+
+# Maquettage desktop
+
+<Excalidraw
+  drawFilePath="./maquettage.excalidraw"
+  class="w-[700px] h-[400px]"
+  :darkMode="false"
+  :background="false"
+/>
+<Scroll/>
+</div>
 
 ---
 transition: fade-out
