@@ -1,0 +1,15 @@
+```plantuml
+
+@startwbs
++[#SkyBlue] MYEEBOOK
+++[#pink] Accueil
++++[#aliceblue] Connexion
++++[#aliceblue] S'incrire
++++[#aliceblue]  Barre de recherche dynamique
++++[#aliceblue]  Description d'un livre
+++[#pink] Client
+++[#pink] Libraire
+@endwbs
+
+```
+
