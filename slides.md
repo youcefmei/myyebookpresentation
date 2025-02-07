@@ -25,19 +25,18 @@ addons:
   - slidev-component-scroll
 ---
 
-# Welcome to Slidev
+# Projet Myyebok
 
-Presentation slides for developers
+Gestion d'une librairie
 
 <div @click="$slidev.nav.next" class="mt-12 py-1" hover:bg="white op-10">
-  Press Space for next page <carbon:arrow-right />
 </div>
 
 <div class="abs-br m-6 text-xl">
   <button @click="$slidev.nav.openInEditor" title="Open in Editor" class="slidev-icon-btn">
     <carbon:edit />
   </button>
-  <a href="https://github.com/slidevjs/slidev" target="_blank" class="slidev-icon-btn">
+  <a href="https://github.com/mevine54/myyebook" target="_blank" class="slidev-icon-btn">
     <carbon:logo-github />
   </a>
 </div>
@@ -181,18 +180,34 @@ l --> UC_crud_libraire
 layout: center
 
 ---
-<div class="flex flex-col items-center" style="height: 300px; overflow-y: auto;">
+
+
+# Maquettage 
+
+<div class="flex items-center justify-center">
+<div class="w-[400px] ">
+  <img src="/public/maquettage_desktop_libraire_livre.svg"/>
+</div>
+  <div class="ml-2 w-[100px] h-[400] ">
+    <img height=100 width=450 src="/public/maquettage_mobile_accueil.svg"/>
+  </div>
+</div>
+
+
+---
+layout: left
+
+---
+
 
 # Maquettage Mobile
 
-<Excalidraw
-  drawFilePath="./maquettage.excalidraw"
-  class="w-[700px] h-[400px]"
-  :darkMode="false"
-  :background="false"
-/>
+<div class="d-flex w-[300px] h-[750px] ">
+<img src="/public/maquettage_mobile_accueil.svg"/>
 <Scroll/>
 </div>
+
+
 
 ---
 layout: center
