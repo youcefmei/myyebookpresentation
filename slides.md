@@ -195,7 +195,7 @@ layout: center
 
 
 ---
-layout: left
+layout: none
 
 ---
 

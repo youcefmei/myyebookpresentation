@@ -19,7 +19,7 @@ importers:
         version: 0.25.0
       myyebook:
         specifier: 'file:'
-        version: file:(@babel/parser@7.26.7)(@nuxt/kit@3.15.4(rollup@4.32.1))(@types/markdown-it@14.1.2)(@types/node@18.19.74)(@vue/compiler-sfc@3.5.13)(markdown-it-async@2.0.0)(postcss@8.5.1)(rollup@4.32.1)(tsx@4.19.2)(typescript@5.7.3)
+        version: file:(@babel/parser@7.26.7)(@nuxt/kit@3.15.4(rollup@4.32.1))(@slidev/client@51.1.0(@nuxt/kit@3.15.4(rollup@4.32.1))(@vue/compiler-sfc@3.5.13)(markdown-it-async@2.0.0)(postcss@8.5.1)(rollup@4.32.1)(vite@6.0.11(@types/node@18.19.74)(jiti@2.4.2)(tsx@4.19.2)(yaml@2.7.0)))(@types/markdown-it@14.1.2)(@types/node@18.19.74)(@vue/compiler-sfc@3.5.13)(markdown-it-async@2.0.0)(postcss@8.5.1)(rollup@4.32.1)(tsx@4.19.2)(typescript@5.7.3)
       slidev-addon-excalidraw:
         specifier: ^1.0.4
         version: 1.0.4
@@ -5658,16 +5658,18 @@ snapshots:
 
   muggle-string@0.4.1: {}
 
-  myyebook@file:(@babel/parser@7.26.7)(@nuxt/kit@3.15.4(rollup@4.32.1))(@types/markdown-it@14.1.2)(@types/node@18.19.74)(@vue/compiler-sfc@3.5.13)(markdown-it-async@2.0.0)(postcss@8.5.1)(rollup@4.32.1)(tsx@4.19.2)(typescript@5.7.3):
+  myyebook@file:(@babel/parser@7.26.7)(@nuxt/kit@3.15.4(rollup@4.32.1))(@slidev/client@51.1.0(@nuxt/kit@3.15.4(rollup@4.32.1))(@vue/compiler-sfc@3.5.13)(markdown-it-async@2.0.0)(postcss@8.5.1)(rollup@4.32.1)(vite@6.0.11(@types/node@18.19.74)(jiti@2.4.2)(tsx@4.19.2)(yaml@2.7.0)))(@types/markdown-it@14.1.2)(@types/node@18.19.74)(@vue/compiler-sfc@3.5.13)(markdown-it-async@2.0.0)(postcss@8.5.1)(rollup@4.32.1)(tsx@4.19.2)(typescript@5.7.3):
     dependencies:
       '@slidev/cli': 51.1.0(@babel/parser@7.26.7)(@nuxt/kit@3.15.4(rollup@4.32.1))(@types/markdown-it@14.1.2)(@types/node@18.19.74)(@vue/compiler-sfc@3.5.13)(markdown-it-async@2.0.0)(postcss@8.5.1)(rollup@4.32.1)(tsx@4.19.2)
       '@slidev/theme-default': 0.25.0
       '@slidev/theme-seriph': 0.25.0
       slidev-addon-excalidraw: 1.0.4
+      slidev-component-scroll: 1.1.0(@slidev/client@51.1.0(@nuxt/kit@3.15.4(rollup@4.32.1))(@vue/compiler-sfc@3.5.13)(markdown-it-async@2.0.0)(postcss@8.5.1)(rollup@4.32.1)(vite@6.0.11(@types/node@18.19.74)(jiti@2.4.2)(tsx@4.19.2)(yaml@2.7.0)))(vue@3.5.13(typescript@5.7.3))
       vue: 3.5.13(typescript@5.7.3)
     transitivePeerDependencies:
       - '@babel/parser'
       - '@nuxt/kit'
+      - '@slidev/client'
       - '@svgr/core'
       - '@svgx/core'
       - '@types/markdown-it'
