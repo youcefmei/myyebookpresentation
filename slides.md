@@ -296,6 +296,134 @@ class: h-a m-a
 # Maquettage mobile
 Visiteur et client  
 
+
+---
+level: 4
+---
+
+# Composant Métiers ( Client )
+
+<div class="flex gap-col-lg ">
+
+<Transform :scale="0.85">
+```java {*|1-12|13-25|43-54}
+  /**
+    * Instantiates a new Client.
+     *
+     * @param compte     the compte
+     * @param clientId   the client id
+     * @param nom        the nom
+     * @param prenom     the prenom
+     * @param email      the email
+     * @param adresse    the adresse
+     * @param ville      the ville
+     * @param codePostal the code postal
+     */
+    public Client (Compte compte, Integer clientId,
+     String nom, String prenom, 
+    String email, String adresse,
+     String ville, String codePostal) {
+        compte.setRole("ROLE_CLIENT");
+        setCompte(compte);
+        setClientId(clientId);
+        setNom(nom);
+        setPrenom(prenom);
+        setEmail(email);
+        setAdresse(adresse);
+        setVille(ville);
+        setCodePostal(codePostal);
+    }
+```
+</Transform>
+
+<Transform :scale="0.85">
+```java {*|8-12|14-16|17-18|19-20|}
+    /**
+     * Sets nom.
+     *
+     * @param nom the nom
+     */
+    public void setNom(String nom) {
+        int longueurMin = 2;
+        int longueurMax = 50;
+        if (nom == null) {
+            throw new NullValueException("Le nom du client ne peut pas etre null");
+        }
+        nom = nom.trim();
+        String regex = "^[A-Za-zàâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ\\-]{" + longueurMin + "," + longueurMax + "}$";
+        if (nom.length() < longueurMin) {
+            throw new LongueurMinimaleException("Le nom du client est trop court:" + nom + ", " + nom.length() + " caracteres");
+        } else if (nom.length() > longueurMax) {
+            throw new LongueurMaximaleException("Le nom du client est trop long:" + nom + ", " + nom.length() + " caracteres");
+        } else if (!nom.matches(regex)) {
+            throw new RegexValidationException("Le nom n'est pas valide. Veuillez entrer un nom contenant uniquement des lettres et des espaces, avec une longueur de " + longueurMin + " à " + longueurMax + " caractères");
+        }
+        this.nom = nom;
+    }
+```
+</Transform>
+</div>
+
+---
+layout: two-cols
+
+---
+
+# DAO - Libraire
+
+  1 - Création d'un compte - ( Transaction ) 
+
+::right::
+<Transform :scale="0.55">
+```java
+@Override
+public Integer insert(Libraire libraire) throws SQLException {
+    String sql = "INSERT INTO Compte (cpt_login, cpt_mdp,cpt_role) VALUES ( ?, ?,?)";
+    Integer compteId = 0;
+    try {
+        Connection connection = DatabaseConnection.getInstanceDB();
+        connection.setAutoCommit(false);
+        PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        ps.setString(1, libraire.getCompte().getLogin());
+        ps.setString(2, libraire.getCompte().getPassword());
+        ps.setString(3, libraire.getCompte().getRole());
+        ps.executeUpdate();
+        ResultSet generatedKeysCompte = ps.getGeneratedKeys();
+        if (generatedKeysCompte.next()) {
+            sql = "INSERT INTO libraire ( lib_nom, lib_prenom,cpt_id) VALUES ( ?, ?,?)";
+            compteId = generatedKeysCompte.getInt(1);
+            log.info("COMPTE : -----  " + compteId);
+            ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, libraire.getNom());
+            ps.setString(2, libraire.getPrenom());
+            ps.setInt(3, compteId );
+            ps.executeUpdate();
+            ResultSet generatedKeysLibraire = ps.getGeneratedKeys();
+            if (generatedKeysLibraire.next()) {
+                int libraireId = generatedKeysLibraire.getInt(1);
+                libraire.setLibId(libraireId);
+                connection.commit();
+                return libraireId;
+            }
+        }
+        connection.rollback();
+    } catch (SQLException e) {
+        connection.rollback();
+        throw new RuntimeException(e);
+    } finally {
+        if (connection != null) {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                log.warn("Impossible de rétablir l'autocommit", e);
+            }
+        }
+    }
+    return compteId;
+}
+```
+</Transform>
+
 ---
 layout: center
 ---

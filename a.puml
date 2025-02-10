@@ -1,0 +1,29 @@
+@startuml
+|#pink|Visiteur|
+
+start
+if (inscription?) is (client) then
+|#lightgray|Client|
+#pink:**Reserver un livre**;
+:Suivre un cours;
+|#lightyellow|Libraire attente|
+endif
+end
+fork
+    #lightblue:**Contact dans les **
+** meilleurs delais**;
+:déconnexion (modale);
+'stop
+|Libraire|
+fork again
+    #palegreen:Prise de contact avec le candidat;
+    #palegreen:Rdv avec le candidat;
+    if (Decision de l'administrateur) then (refuse)
+    '|Visiteur|
+
+        #palegreen:mail de refus;
+        'stop
+        break
+    endif
+end fork
+stop
