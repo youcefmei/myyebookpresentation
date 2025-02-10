@@ -14,6 +14,7 @@
     "myyebook": "file:",
     "slidev-addon-excalidraw": "^1.0.4",
     "slidev-component-scroll": "^1.1.0",
+    "slidev-theme-light-icons": "^1.0.2",
     "vue": "^3.5.13"
   }
 }

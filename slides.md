@@ -20,6 +20,7 @@ drawings:
 transition: slide-left
 # enable MDC Syntax: https://sli.dev/features/mdc
 mdc: true
+colorSchema: light
 addons:
   - excalidraw
   - slidev-component-scroll
@@ -27,7 +28,7 @@ addons:
 
 # Projet Myyebok
 
-Gestion d'une librairie
+Gestion d'une bibliothèque
 
 <div @click="$slidev.nav.next" class="mt-12 py-1" hover:bg="white op-10">
 </div>
@@ -45,17 +46,112 @@ Gestion d'une librairie
 The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
 -->
 
+---
+layout: center
+---
+
+# Besoin et contrainte du projet
+
+- **Contexte** : Projet de groupe 
+- **Projet** : Site permettant de gérer une bibliothèque
+- **Durée** : 1 mois environ
+
+
+
+
+
+---
+layout: full
+---
+
+
+# Spécificités techniques
+
+* **Gestion de projet** : Trello
+- **Wireframe** : Excalidraw
+* **Front-end** : HTML5, CSS3 ( BOOTSTRAP 5 ), Javascript ( HTMX + Sweet Alert 2)
+* **Serveur d'applications** : Tomcat 10
+* **Back-end** : JAVA 21
+  * **Gestion des dépendances** : Maven
+    * Jakarta ( Servlet et JSP ) - Password4J - Lombok - Slf4j et Logback
+* **Base de donnée** : Mysql 8 
+<div class="flex  ">
+<ul>
+<li> <b>Gestion de version</b> : Git / Github</li>
+</ul>
+<div class="w-a h-5">
+```mermaid
+---
+title: "Strategie: Github Flow" 
+---
+gitGraph
+   commit
+   branch model
+   checkout model
+   commit
+   commit
+   checkout main
+   merge model
+   branch dao
+   checkout dao
+   commit
+   commit
+   checkout main
+   merge dao
+```
+</div>
+</div>
 
 ---
 layout: center
 ---
-# Introduction
 
-Voici un diagramme PlantUML :
+# Architecture du site
 
-<div class="flex">
 
-<div class="flex pa-18">
+<div class="h-a w-lg">
+```plantuml
+@startwbs
++[#SkyBlue] MYYEBOOK
+++[#lightgreen] Accueil <color:blue>( Visiteur / Client )</color>
++++[#aliceblue] Connexion
++++[#aliceblue] S'incrire pour devenir client
++++[#beige]  Barre de recherche dynamique
++++[#beige]  Liste des livres
+++++[#bisque]  Description d'un livre
+++[#pink] Client
++++[#aliceblue] Modifier info
++++[#aliceblue] Voir emprunt
++++[#aliceblue] Se deconnecter
+++[#pink] Libraires
++++[#aliceblue] liste emprunts
+++++_ CRUD emprunts
++++[#aliceblue] liste livres
+++++_ CRUD livres
++++[#aliceblue] liste auteur
+++++_ CRUD auteurs
++++[#aliceblue] liste categories
+++++_ CRUD categories
++++[#aliceblue] liste clients
+++++_ CRUD clients
++++[#aliceblue] liste libraires
+++++_ CRUD libraires
++++[#aliceblue] Se deconnecter
+@endwbs
+```
+
+</div>
+
+---
+layout: center
+---
+
+
+# Cas d'utilisations 
+
+<div class="flex h-xs mt-4 flex-items-center w-3xl m-auto">
+
+<div class="me self-auto " >
 
 ```plantuml
 @startuml
@@ -80,7 +176,7 @@ left to right direction
 actor Visiteur as v
 
 
-rectangle "MYYEBOOK ( Visiteur )" {
+rectangle "Visiteur" {
   usecase "Consulter livres\nRechercher livre" as UC_consulter_livre
   usecase "Creer un compte abonne" as UC_creer_compte_abonne
 }
@@ -93,7 +189,7 @@ v --> UC_creer_compte_abonne
 ```
 
 </div>
-
+<div>
 
 ```plantuml
 @startuml
@@ -117,7 +213,7 @@ ActorFontName Courier
 left to right direction
 actor Abonne as a
 
-rectangle "MYYEBOOK ( Abonne )" {
+rectangle "Abonne" {
   usecase "Consulter livres\nRechercher livre" as UC_consulter_livre_abo
   usecase "Consulter compte\nModifier compte" as UC_compte
   usecase "Emprunter un livre" as UC_emprunter
@@ -131,9 +227,9 @@ a --> UC_compte
 a --> UC_consulter_livre_abo
 
 @enduml
-
 ```
-
+</div>
+<div>
 ```plantuml
 @startuml
 !theme sunlust
@@ -155,7 +251,7 @@ ActorFontName Courier
 
 left to right direction
 actor Libraire as l
-rectangle "MYYEBOOK ( Libraire )" {
+rectangle "Libraire" {
   usecase "Lister et CRUD livres" as UC_crud_livre
   usecase "Lister et CRUD auteurs" as UC_crud_auteur
   usecase "Lister et CRUD abonnes" as UC_crud_abonne
@@ -168,12 +264,9 @@ l --> UC_crud_libraire
 
 
 @enduml
-
 ```
-
 </div>
-
-
+</div>
 
 
 ---
@@ -182,48 +275,46 @@ layout: center
 ---
 
 
-# Maquettage 
+# Maquettage Desktop
+
+Libraire ->  Partie livre
 
 <div class="flex items-center justify-center">
-<div class="w-[400px] ">
-  <img src="/public/maquettage_desktop_libraire_livre.svg"/>
+<div class="w-[800px] ">
+  <img src="/src/maquettage_desktop_libraire_livre.svg"/>
 </div>
-  <div class="ml-2 w-[100px] h-[400] ">
-    <img height=100 width=450 src="/public/maquettage_mobile_accueil.svg"/>
-  </div>
 </div>
 
 
 ---
-layout: none
-
+layout: image-right
+image: /src/maquettage_mobile_accueil.svg
+backgroundSize: 29em 95%
+class: h-a m-a
 ---
 
-
-# Maquettage Mobile
-
-<div class="d-flex w-[300px] h-[750px] ">
-<img src="/public/maquettage_mobile_accueil.svg"/>
-<Scroll/>
-</div>
-
-
+# Maquettage mobile
+Visiteur et client  
 
 ---
 layout: center
-
 ---
-<div class="flex flex-col items-center" style="height: 300px; overflow-y: auto;">
 
-# Maquettage desktop
+#  Diagramme de flux de données
+**Design pattern** : Modèle-vue-contrôleur 
 
-<Excalidraw
-  drawFilePath="./maquettage.excalidraw"
-  class="w-[700px] h-[400px]"
-  :darkMode="false"
-  :background="false"
-/>
-<Scroll/>
+
+<div class="w-xs h-a">
+```mermaid
+graph TD
+  A[Utilisateur] --> B(Servlet)
+  B --> C[DAO]
+  C --> D[Base de Données]
+  B --> E[Vue JSP]
+  E --> A
+
+
+```
 </div>
 
 ---

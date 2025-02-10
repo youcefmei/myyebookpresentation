@@ -1,0 +1,31 @@
+```plantuml
+
+@startwbs
++[#SkyBlue] MYYEBOOK
+++[#lightgreen] Accueil <color:blue>( Visiteur / Client )</color>
++++[#aliceblue] Connexion
++++[#aliceblue] S'incrire pour devenir client
++++[#aliceblue]  Description d'un livre
++++_  Barre de recherche dynamique
+++[#pink] Client
++++[#aliceblue] Modifier info
++++[#aliceblue] Voir emprunt
++++[#aliceblue] Se deconnecter
+++[#pink] Libraires
++++[#aliceblue] liste emprunts
+++++_ CRUD emprunts
++++[#aliceblue] liste livres
+++++_ CRUD livres
++++[#aliceblue] liste auteur
+++++_ CRUD auteurs
++++[#aliceblue] liste categories
+++++_ CRUD categories
++++[#aliceblue] liste clients
+++++_ CRUD clients
++++[#aliceblue] liste libraires
+++++_ CRUD libraires
++++[#aliceblue] Se deconnecter
+@endwbs
+
+```
+
