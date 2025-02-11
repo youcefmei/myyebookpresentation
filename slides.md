@@ -268,6 +268,61 @@ l --> UC_crud_libraire
 </div>
 </div>
 
+---
+layout: full
+---
+
+<!--
+- méthode merise
+- cardinalité
+- ajout: compte -> date pour le RGPD ( On ne garde pas les données indéfiniment)
+- ajout: emprunter date de reservation
+- contrainte d'inter association - exclusivité ( un compte appartient a un libraire ou un client mais pas les 2 à la fois )
+- trigger : emprunter date
+- contrainte: quantite des livres
+- emprunter un livre seulement si la quantite est supérieur à zero
+-->
+# Modèle conceptuel des données
+
+<Transform scale=0.75>
+<img src="/src/mcd.jpg"/>
+</Transform>
+
+
+---
+layout: full
+---
+
+<!--
+- 
+-->
+# Modèle physique des données
+<Transform scale=0.75>
+<img src="/src/mpd.jpg"/>
+</Transform>
+
+---
+layout: image-right
+image: /src/maquettage_mobile_accueil.svg
+backgroundSize: 28em 95%
+class: h-a m-a
+---
+
+<!--
+- La partie utilisateur est responsive -> BOOTSTRAP
+- 
+- ajout: compte -> date pour le RGPD ( On ne garde pas les données indéfiniment)
+- ajout: emprunter date de reservation
+- contrainte d'inter association - exclusivité ( un compte appartient a un libraire ou un client mais pas les 2 à la fois )
+- trigger : emprunter date
+- contrainte: quantite des livres
+- emprunter un livre seulement si la quantite est supérieur à zero
+-->
+
+# Maquettage mobile
+Visiteur et client  
+
+
 
 ---
 layout: center
@@ -286,16 +341,6 @@ Libraire ->  Partie livre
 </div>
 
 
----
-layout: image-right
-image: /src/maquettage_mobile_accueil.svg
-backgroundSize: 29em 95%
-class: h-a m-a
----
-
-# Maquettage mobile
-Visiteur et client  
-
 
 ---
 level: 4
@@ -303,9 +348,16 @@ level: 4
 
 # Composant Métiers ( Client )
 
+<!--
+- utilisation de javadoc
+- on passe par les setters -> encapsulation des données
+- pour la validation  on utilise des exceptions personnalisées
+-->
+
 <div class="flex gap-col-lg ">
 
 <Transform :scale="0.85">
+<h4><b>Constructeur</b></h4>
 ```java {*|1-12|13-25|43-54}
   /**
     * Instantiates a new Client.
@@ -337,6 +389,7 @@ level: 4
 </Transform>
 
 <Transform :scale="0.85">
+<h4><b>SetNom</b></h4>
 ```java {*|8-12|14-16|17-18|19-20|}
     /**
      * Sets nom.
@@ -366,18 +419,24 @@ level: 4
 
 ---
 layout: two-cols
-
 ---
 
 # DAO - Libraire
 
-  1 - Création d'un compte - ( Transaction ) 
+- Implémentation de l'interface DAO
+- Création d'un compte -> Transaction 
+- Requêtes préparées
+- Utilisation du logger
+- Création de la libraire 
+- Validation ou rollback
+- fin de la transaction
 
 ::right::
-<Transform :scale="0.55">
-```java
+<Transform :scale="0.55" class="w-180%">
+```java {|1|2-14|18|13-28|29-32|38-42|}{lines:true}
 @Override
 public Integer insert(Libraire libraire) throws SQLException {
+    Integer libId = null;
     String sql = "INSERT INTO Compte (cpt_login, cpt_mdp,cpt_role) VALUES ( ?, ?,?)";
     Integer compteId = 0;
     try {
@@ -396,17 +455,17 @@ public Integer insert(Libraire libraire) throws SQLException {
             ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, libraire.getNom());
             ps.setString(2, libraire.getPrenom());
-            ps.setInt(3, compteId );
+            ps.setInt(3, compteId);
             ps.executeUpdate();
             ResultSet generatedKeysLibraire = ps.getGeneratedKeys();
             if (generatedKeysLibraire.next()) {
                 int libraireId = generatedKeysLibraire.getInt(1);
                 libraire.setLibId(libraireId);
                 connection.commit();
-                return libraireId;
             }
+        } else {
+            connection.rollback();
         }
-        connection.rollback();
     } catch (SQLException e) {
         connection.rollback();
         throw new RuntimeException(e);
@@ -419,7 +478,7 @@ public Integer insert(Libraire libraire) throws SQLException {
             }
         }
     }
-    return compteId;
+    return libId;
 }
 ```
 </Transform>
@@ -431,7 +490,6 @@ layout: center
 #  Diagramme de flux de données
 **Design pattern** : Modèle-vue-contrôleur 
 
-
 <div class="w-xs h-a">
 ```mermaid
 graph TD
@@ -440,8 +498,6 @@ graph TD
   C --> D[Base de Données]
   B --> E[Vue JSP]
   E --> A
-
-
 ```
 </div>
 
