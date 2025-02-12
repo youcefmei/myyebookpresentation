@@ -20,6 +20,7 @@ drawings:
 transition: slide-left
 # enable MDC Syntax: https://sli.dev/features/mdc
 mdc: true
+# light ou dark
 colorSchema: light
 addons:
   - excalidraw
@@ -55,9 +56,6 @@ layout: center
 - **Contexte** : Projet de groupe 
 - **Projet** : Site permettant de gérer une bibliothèque
 - **Durée** : 1 mois environ
-
-
-
 
 
 ---
@@ -302,10 +300,8 @@ layout: full
 </Transform>
 
 ---
-layout: image-right
+layout: two-cols
 image: /src/maquettage_mobile_accueil.svg
-backgroundSize: 28em 95%
-class: h-a m-a
 ---
 
 <!--
@@ -320,9 +316,13 @@ class: h-a m-a
 -->
 
 # Maquettage mobile
-Visiteur et client  
+## Visiteur et client
 
+::right::
 
+<Transform scale=1.05>
+<img src="/src/maquettage_mobile_accueil.svg"/>
+</Transform>
 
 ---
 layout: center
@@ -339,8 +339,6 @@ Libraire ->  Partie livre
   <img src="/src/maquettage_desktop_libraire_livre.svg"/>
 </div>
 </div>
-
-
 
 ---
 level: 4
@@ -487,19 +485,109 @@ public Integer insert(Libraire libraire) throws SQLException {
 layout: center
 ---
 
-#  Diagramme de flux de données
-**Design pattern** : Modèle-vue-contrôleur 
+<!--
+- Tomcat: recoit la requete http et l envoie a une servlet ( controlleur) 
+- Model: Classe Métier java
+- Vue: JSP 
+-->
 
-<div class="w-xs h-a">
-```mermaid
-graph TD
-  A[Utilisateur] --> B(Servlet)
-  B --> C[DAO]
-  C --> D[Base de Données]
-  B --> E[Vue JSP]
-  E --> A
-```
+# Modèle vue contrôleur
+
+<div class="w-[500px] ">
+  <img src="/src/mvc.jpg"/>
 </div>
+
+---
+layout: center
+---
+
+
+# Les rôles
+
+```plantuml
+@startuml
+skinparam sequence {
+    ActorBackgroundColor<<Visiteur>> LightBlue
+    ActorBackgroundColor<<Client>> LightGreen
+    ActorBackgroundColor<<Libraire>> LightYellow
+    ActorBackgroundColor<<Libraire_attente>> LightCoral
+}
+actor Visiteur <<Visiteur>>
+box "Après connexion" #LightBlue
+actor Client <<Client>>
+actor Libraire <<Libraire>>
+actor Libraire_Attente <<Libraire_Attente>>
+end box
+
+Visiteur -> Client : S'inscrire
+Libraire -> Libraire_Attente : Créer un autre libraire
+Libraire_Attente -> Libraire : Changer le mot de passe
+@enduml
+
+@enduml
+```
+
+---
+layout: full
+---
+
+```java 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String utilisateur = request.getParameter("utilisateur");
+        String mdp = request.getParameter("mdp");
+
+        CompteDAOImp compteDAOImpl = new CompteDAOImp();
+        LibraireDAOImp libraireDAOImpl = new LibraireDAOImp();
+        ClientDAOImp clientDAOImp = new ClientDAOImp();
+        HttpSession session = null;
+        Compte compte = null;
+        try {
+            compte = compteDAOImpl.getParLogin(utilisateur);
+            if (compte != null) {
+                String hashedPassword = compteDAOImpl.getHashedPasswordByLogin(utilisateur);
+                boolean estAuthentifie = Password.check(mdp, hashedPassword).addPepper(PoivreToken.POIVRE).withBcrypt();
+                if (!estAuthentifie) {
+                    response.sendRedirect("connexion?info=cred-invalid");
+                }
+
+                log.info("compte: " + compte);
+
+                if (compte.getRole().equals("ROLE_LIBRAIRE") || compte.getRole().equals("ROLE_LIBRAIRE_ATTENTE")) {
+                    Libraire libraire = libraireDAOImpl.getParCompteId(compte.getCompteId());
+                    log.info("estAuthentifie: " + estAuthentifie);
+                    if (libraire != null && estAuthentifie) {
+                        session = request.getSession(true);
+                        if (libraire.isEstApprouve()) {
+                            session.setAttribute("role", "ROLE_LIBRAIRE");
+                            response.sendRedirect("monCompteLibraire");
+                        } else {
+                            session.setAttribute("role", "ROLE_LIBRAIRE_ATTENTE");
+                            // TODO: rediriger vers une page changer password
+                            response.sendRedirect("monCompteLibraire");
+                        }
+                    }
+                    log.info("libraire: " + libraire);
+                } else if (compte.getRole().equals("ROLE_CLIENT") && estAuthentifie) {
+                    Client client = clientDAOImp.getParCompteId(compte.getCompteId());
+                    if (client != null) {
+                        session = request.getSession(true);
+                        session.setAttribute("role", "ROLE_CLIENT");
+                        response.sendRedirect("monCompteClient");
+                    }
+                    log.info("client: " + client);
+                }
+            }
+            else{
+                response.sendRedirect("connexion?info=cred-invalid");
+            }
+        } catch (SQLException e) {
+            log.error("Erreur lors de la récupération du compte", e);
+            response.sendRedirect("connexion.jsp?error=true");
+        }
+    }
+```
+
 
 ---
 transition: fade-out

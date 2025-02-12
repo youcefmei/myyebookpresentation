@@ -2,6 +2,40 @@
 |#pink|Visiteur|
 
 start
+#lightblue:**lLister un livre**;
+if (inscription?) is (client) then
+|#lightgray|Client|
+#pink:**Reserver un livre**;
+:Suivre un cours;
+|#lightyellow|Libraire attente|
+
+end
+start
+fork
+    #lightblue:**Contact dans les **
+** meilleurs delais**;
+:déconnexion (modale);
+'stop
+|Libraire|
+fork again
+    #palegreen:Prise de contact avec le candidat;
+    #palegreen:Rdv avec le candidat;
+    if (Decision de l'administrateur) then (refuse)
+    '|Visiteur|
+
+        #palegreen:mail de refus;
+        'stop
+        break
+    endif
+end fork
+stop
+@enduml
+
+
+@startuml
+|#pink|Visiteur|
+
+start
 if (inscription?) is (client) then
 |#lightgray|Client|
 #pink:**Reserver un livre**;
@@ -27,3 +61,53 @@ fork again
     endif
 end fork
 stop
+@enduml
+
+
+
+@startuml
+skinparam usecase {
+    BackgroundColor<< Main >> YellowGreen
+
+    ActorBackgroundColor<<Visiteur>> LightBlue
+    ActorBackgroundColor<<Client>> LightGreen
+    ActorBackgroundColor<<Libraire>> LightYellow
+    ActorBackgroundColor<<Libraire_attente>> LightCoral
+}
+actor Visiteur <<Visiteur>>
+actor Client <<Client>>
+actor Libraire <<Libraire>>
+actor Libraire_attente <<Libraire_attente>>
+
+Visiteur -> Client : S'inscrire
+Libraire -> Libraire_attente : Créer un autre libraire
+Libraire_attente -> Libraire : Changer le mot de passe
+
+
+@enduml
+
+
+@startuml
+left to right direction
+actor Guest as g
+package Professional {
+  actor Chef as c
+  actor "Food Critic" as fc
+}
+package Restaurant {
+  usecase "Eat Food" as UC1
+  usecase "Pay for Food" as UC2
+  usecase "Drink" as UC3
+  usecase "Review" as UC4
+}
+fc --> UC4
+g --> UC1
+g --> UC2
+g --> UC3
+@enduml
+skinparam use case {
+    ActorBackgroundColor<<Visiteur>> LightBlue
+    ActorBackgroundColor<<Client>> LightGreen
+    ActorBackgroundColor<<Libraire>> LightYellow
+    ActorBackgroundColor<<Libraire_attente>> LightCoral
+}
