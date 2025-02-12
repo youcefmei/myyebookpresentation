@@ -270,6 +270,20 @@ layout: center
 <img src="/src/icons/arrow-repeat.svg" class= "h-a w-200px "/>
 
 ---
+layout: center
+
+---
+
+# Maquettage Desktop
+
+Libraire ->  Partie livre
+
+<div class="flex items-center justify-center">
+<div class="w-[800px] ">
+  <img src="/src/maquettage_desktop_libraire_livre.svg"/>
+</div>
+</div>
+---
 layout: two-cols
 ---
 
@@ -295,22 +309,19 @@ layout: two-cols
 
 
 
+
+
 ---
-layout: center
-
+layout: two-cols
 ---
 
-# Maquettage Desktop
+# Interface desktop
 
-Libraire ->  Partie livre
+::right::
 
-<div class="flex items-center justify-center">
-<div class="w-[800px] ">
-  <img src="/src/maquettage_desktop_libraire_livre.svg"/>
-</div>
-</div>
-
-
+<Transform scale=0.85>
+<img src="/src/capture_desktop.png"/>
+</Transform>
 
 ---
 layout: two-cols
@@ -332,17 +343,7 @@ layout: two-cols
 </div>
 
 
----
-layout: two-cols
----
 
-# Interface desktop
-
-::right::
-
-<Transform scale=0.85>
-<img src="/src/capture_desktop.png"/>
-</Transform>
 
 ---
 layout: center
