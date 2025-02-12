@@ -362,6 +362,48 @@ layout: center
 </div>
 
 ---
+layout: two-cols
+---
+
+# Vue 
+#### Modification d'un livre
+
+* Formulaire en post
+* Utilsation de la JSTL pour contrer la XSS
+* Insertion d'un champs cachés CSRF
+
+
+::right::
+
+<Transform :scale="0.95" class="w-110%">
+```java {|1-14|15-46|47-53|}{lines:true}
+<form class="mx-auto col-lg-7" enctype="multipart/form-data" method="POST"
+      action="LivreModification">
+    <input type="hidden" name="id" value="<c:out value="${livre.id}"/>"/>
+    <input type="hidden" name="csrf" value="<c:out value='${requestScope.csrfToken}'/>"/>
+    <a href="${pageContext.request.contextPath}/ListeLivre"
+        class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i
+            class="bi bi-arrow-left-short"></i> Retour</a>
+    <div class="row mb-3">
+        <div class="col">
+            <label for="nom" class="form-label">Nom du livre</label>
+            <input type="text" class="form-control" id="nom" name="nom"
+                    value="<c:out value="${livre.titre}"/>" required>
+        </div>
+        <div class="col">
+            <label for="categorie" class="form-label">Auteur</label>
+            <select class="form-select" id="auteur" name="auteur" required>
+                <option value="" selected disabled>Veuillez selectionez une option</option>
+                <c:forEach var="auteur" items="${requestScope.auteurList}">
+                    <option value="<c:out value="${auteur.auteurId}"/>"><c:out
+                            value="${auteur.prenom}"/> <c:out value="${auteur.nom}"/></option>
+                </c:forEach>
+            </select>
+        </div
+```
+</Transform>
+
+---
 layout: center
 ---
 
@@ -542,6 +584,12 @@ public Integer insert(Libraire libraire) throws SQLException {
 ```
 </Transform>
 
+---
+layout: center
+---
+
+<img src="/src/icons/arrow-repeat.svg" class= "h-a w-200px "/>
+
 
 
 ---
@@ -647,6 +695,9 @@ layout: two-cols
     }
 ```
 </Transform>
+
+
+
 
 ---
 transition: fade-out
