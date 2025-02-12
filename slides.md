@@ -62,7 +62,6 @@ layout: center
 layout: full
 ---
 
-
 # Spécificités techniques
 
 * **Gestion de projet** : Trello
@@ -143,7 +142,6 @@ layout: center
 ---
 layout: center
 ---
-
 
 # Cas d'utilisations 
 
@@ -265,6 +263,108 @@ l --> UC_crud_libraire
 ```
 </div>
 </div>
+---
+layout: center
+---
+
+<img src="/src/icons/arrow-repeat.svg" class= "h-a w-200px "/>
+
+---
+layout: two-cols
+---
+
+<!--
+- La partie utilisateur est responsive -> BOOTSTRAP
+- 
+- ajout: compte -> date pour le RGPD ( On ne garde pas les données indéfiniment)
+- ajout: emprunter date de reservation
+- contrainte d'inter association - exclusivité ( un compte appartient a un libraire ou un client mais pas les 2 à la fois )
+- trigger : emprunter date
+- contrainte: quantite des livres
+- emprunter un livre seulement si la quantite est supérieur à zero
+-->
+
+# Maquettage mobile
+## Visiteur et client
+
+::right::
+
+<Transform scale=1.05>
+<img src="/src/maquettage_mobile_accueil.svg"/>
+</Transform>
+
+
+
+---
+layout: center
+
+---
+
+# Maquettage Desktop
+
+Libraire ->  Partie livre
+
+<div class="flex items-center justify-center">
+<div class="w-[800px] ">
+  <img src="/src/maquettage_desktop_libraire_livre.svg"/>
+</div>
+</div>
+
+
+
+---
+layout: two-cols
+---
+
+# Interface mobile
+
+::right::
+
+<div class="flex">
+<Transform scale=0.85>
+<img src="/src/capture_mobile.png"/>
+</Transform>
+
+
+<Transform scale=1.15>
+<img src="/src/capture_mobile2.png"/>
+</Transform>
+</div>
+
+
+---
+layout: two-cols
+---
+
+# Interface desktop
+
+::right::
+
+<Transform scale=0.85>
+<img src="/src/capture_desktop.png"/>
+</Transform>
+
+---
+layout: center
+---
+
+<!--
+- Tomcat: recoit la requete http et l envoie a une servlet ( controlleur) 
+- Model: Classe Métier java
+- Vue: JSP 
+-->
+
+# Modèle vue contrôleur
+
+<div class="w-[500px] ">
+  <img src="/src/mvc.jpg"/>
+</div>
+
+---
+layout: center
+---
+
+<img src="/src/icons/arrow-repeat.svg" class= "h-a w-200px "/>
 
 ---
 layout: full
@@ -299,46 +399,6 @@ layout: full
 <img src="/src/mpd.jpg"/>
 </Transform>
 
----
-layout: two-cols
-image: /src/maquettage_mobile_accueil.svg
----
-
-<!--
-- La partie utilisateur est responsive -> BOOTSTRAP
-- 
-- ajout: compte -> date pour le RGPD ( On ne garde pas les données indéfiniment)
-- ajout: emprunter date de reservation
-- contrainte d'inter association - exclusivité ( un compte appartient a un libraire ou un client mais pas les 2 à la fois )
-- trigger : emprunter date
-- contrainte: quantite des livres
-- emprunter un livre seulement si la quantite est supérieur à zero
--->
-
-# Maquettage mobile
-## Visiteur et client
-
-::right::
-
-<Transform scale=1.05>
-<img src="/src/maquettage_mobile_accueil.svg"/>
-</Transform>
-
----
-layout: center
-
----
-
-
-# Maquettage Desktop
-
-Libraire ->  Partie livre
-
-<div class="flex items-center justify-center">
-<div class="w-[800px] ">
-  <img src="/src/maquettage_desktop_libraire_livre.svg"/>
-</div>
-</div>
 
 ---
 level: 4
@@ -481,21 +541,7 @@ public Integer insert(Libraire libraire) throws SQLException {
 ```
 </Transform>
 
----
-layout: center
----
 
-<!--
-- Tomcat: recoit la requete http et l envoie a une servlet ( controlleur) 
-- Model: Classe Métier java
-- Vue: JSP 
--->
-
-# Modèle vue contrôleur
-
-<div class="w-[500px] ">
-  <img src="/src/mvc.jpg"/>
-</div>
 
 ---
 layout: center
@@ -528,10 +574,22 @@ Libraire_Attente -> Libraire : Changer le mot de passe
 ```
 
 ---
-layout: full
+layout: two-cols
 ---
 
-```java 
+# Connexion
+
+* Fomulaire en post
+* Si un compte correspond à un identifiant
+  * Vérification du mot de passe Bcrypt avec poivre
+  * Creation de session uniquement pour les personnes connectées ( RGPD )
+  * Redirection selon le role du compte 
+* Sinon identifiant et ou mot de passe invalide
+
+::right::
+
+<Transform :scale="0.45" class="w-225%">
+```java {|1-14|15-46|47-53|}{lines:true}
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String utilisateur = request.getParameter("utilisateur");
@@ -587,7 +645,7 @@ layout: full
         }
     }
 ```
-
+</Transform>
 
 ---
 transition: fade-out
@@ -1097,7 +1155,7 @@ Learn more: [Mermaid Diagrams](https://sli.dev/features/mermaid) and [PlantUML D
 ---
 foo: bar
 dragPos:
-  square: 691,32,167,_,-16
+  square: 0,-325,0,0
 ---
 
 # Draggable Elements
