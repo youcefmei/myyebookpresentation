@@ -317,6 +317,22 @@ layout: two-cols
 
 # Interface desktop
 
+<Transform scale="0.75">
+
+* Bootstrap
+* Barre de recherche dynamique => HTMX
+* Référencement - SEO 
+  * Meta name Description
+  * Layout (header - nav - main - footer)
+  * Optimisation des titres (balises `<h1>` à `<h6>`)
+  * Utilisation de liens internes et externes
+* Accessibilité - RGAA
+  * Utilisation des balises sémantiques (ex: `<label>`, `<input>`)
+  * Images accompagnées de l'attribut `alt`
+  * Contraste des couleurs pour une meilleure lisibilité
+  * Utilisation d'ARIA pour améliorer l'accessibilité => Composant Bootstrap  
+</Transform>
+
 ::right::
 
 <Transform scale=0.85>
@@ -328,6 +344,8 @@ layout: two-cols
 ---
 
 # Interface mobile
+
+* Responsive => Bootstrap
 
 ::right::
 
@@ -362,21 +380,34 @@ layout: center
 </div>
 
 ---
-layout: two-cols
+layout: full
 ---
 
+<style>
+
+.grid_1_2 {
+    grid-template-columns: 30% 70%;
+}
+
+</style>
+
 # Vue 
-#### Modification d'un livre
-
-* Formulaire en post
-* Utilsation de la JSTL pour contrer la XSS
-* Insertion d'un champs cachés CSRF
 
 
-::right::
+<div class="grid grid-cols-2 gap-5 pt-4 -mb-6 grid_1_2">
 
-<Transform :scale="0.95" class="w-110%">
-```java {|1-14|15-46|47-53|}{lines:true}
+<div>
+
+<h3> Modification d'un livre </h3>
+
+* Formulaire en POST
+* Insertion d'un champ caché CSRF
+* Utilisation de la JSTL pour contrer la faille XSS
+
+</div>
+
+<Transform :scale="0.90" class="w-150%">
+```java {*|1|4|12,19-20|}{lines:true}
 <form class="mx-auto col-lg-7" enctype="multipart/form-data" method="POST"
       action="LivreModification">
     <input type="hidden" name="id" value="<c:out value="${livre.id}"/>"/>
@@ -402,7 +433,7 @@ layout: two-cols
         </div
 ```
 </Transform>
-
+</div>
 ---
 layout: center
 ---
@@ -591,11 +622,9 @@ layout: center
 <img src="/src/icons/arrow-repeat.svg" class= "h-a w-200px "/>
 
 
-
 ---
 layout: center
 ---
-
 
 # Les rôles
 
@@ -628,12 +657,12 @@ layout: two-cols
 
 # Connexion
 
-* Fomulaire en post
+* Méthode doPost
 * Si un compte correspond à un identifiant
   * Vérification du mot de passe Bcrypt avec poivre
-  * Creation de session uniquement pour les personnes connectées ( RGPD )
-  * Redirection selon le role du compte 
-* Sinon identifiant et ou mot de passe invalide
+  * Création de session uniquement pour les personnes connectées (RGPD)
+  * Redirection selon le rôle du compte
+* Sinon affichage : "identifiant et/ou mot de passe invalide"
 
 ::right::
 
@@ -697,6 +726,78 @@ layout: two-cols
 </Transform>
 
 
+---
+zoom: 0.65
+---
+
+<style>
+
+.grid_1_2 {
+    grid-template-columns: 30% 70%;
+}
+
+</style>
+
+<div class="grid grid-cols-2 gap-5 pt-4 -mb-6 grid_1_2">
+
+<div>
+
+<h3 class="mb-4"> Filtre CSRF </h3>
+
+* Routes à protéger
+  * Si méthode POST - PUT - DELETE
+    * Comparer le CSRF de session et le CSRF de requête
+      * Si différent, erreur 403
+  * Si méthode GET, générer un CSRF
+
+
+</div>
+
+```java {|9-12|16-31|34-39|}{lines:true}
+public class CSRFTokenFilter implements Filter {
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        // Convertir en HttpServletRequest/HttpServletResponse
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        String contextPath = httpRequest.getContextPath();
+        String requestURI = httpRequest.getRequestURI();
+        List<String> routesAProtege = List.of(
+                contextPath + "/CreeUnAuteur",
+                contextPath + "/ListeEmprunts"
+        );
+        HttpSession session = httpRequest.getSession(false);
+        // Vérifier uniquement pour les requêtes sensibles (POST, PUT, DELETE)
+        String method = httpRequest.getMethod();
+        if (session != null && (method.equalsIgnoreCase("POST") || method.equalsIgnoreCase("PUT") || method.equalsIgnoreCase("DELETE"))  && routesAProtege.contains(requestURI) )  {
+            String csrfTokenFromClient = httpRequest.getParameter("csrf");
+            // Récupérer le token CSRF stocké dans la session
+            String csrfTokenFromServer = (String) session.getAttribute("csrfToken");
+            // Validation
+            if (csrfTokenFromClient == null || !csrfTokenFromClient.equals(csrfTokenFromServer)) {
+                // Rejet si le token est invalide ou absent
+                log.info("filtre csrf invalide ou absent");
+                if (!httpResponse.isCommitted()) {
+                    // Envoyer une réponse d'erreur 403 Forbidden
+                    httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid CSRF token");
+                } else {
+                    // Si la réponse est déjà engagée, réinitialisez la réponse
+                    httpResponse.reset();
+                    httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid CSRF token");
+                }
+                return;
+            }
+        } else if (session != null && (method.equalsIgnoreCase("GET") || method.equalsIgnoreCase("HEAD")) && routesAProtege.contains(requestURI)) {
+            log.info("request uri : {}", requestURI);
+            String uuidStr = UUID.randomUUID().toString();
+            session.setAttribute("csrfToken", uuidStr);
+            request.setAttribute("csrfToken", uuidStr);
+        }
+        chain.doFilter(request, response);
+    }
+}
+```
+</div>
 
 
 ---
