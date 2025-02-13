@@ -301,6 +301,8 @@ layout: two-cols
 # Maquettage mobile
 ## Visiteur et client
 
+* Excalidraw 
+
 ::right::
 
 <Transform scale=1.05>
@@ -324,8 +326,6 @@ layout: two-cols
 * Référencement - SEO 
   * Meta name Description
   * Layout (header - nav - main - footer)
-  * Optimisation des titres (balises `<h1>` à `<h6>`)
-  * Utilisation de liens internes et externes
 * Accessibilité - RGAA
   * Utilisation des balises sémantiques (ex: `<label>`, `<input>`)
   * Images accompagnées de l'attribut `alt`
@@ -345,7 +345,8 @@ layout: two-cols
 
 # Interface mobile
 
-* Responsive => Bootstrap
+* Bootstrap Responsive => les classes media-queries prédéfini
+* Par exemple: col-md 
 
 ::right::
 
@@ -799,6 +800,103 @@ public class CSRFTokenFilter implements Filter {
 ```
 </div>
 
+---
+zoom: 0.6
+---
+
+
+<style>
+
+.grid_1_2 {
+    grid-template-columns: 40% 60%;
+}
+
+</style>
+
+# Test 
+
+
+<div class="grid grid-cols-2 gap-5 pt-4 -mb-6 grid_1_2">
+
+<div>
+<h3>Test unitaire : Auteur</h3>
+
+
+
+</div>
+
+```java {|9-12|16-31|34-39|}{lines:true}
+public class AuteurTest {
+    private Auteur auteur;
+
+    @BeforeEach
+    void setUp() {
+        auteur = new Auteur(null, "nomauteur","prenomauteur","../chemin/vers/laphoto/123e4567-e89b-12d3-a456-426614174000.jpg" );
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Dupont", "Marie", "Sartre", "Dupont ",})
+    void setNomValid(String nom) {
+        assertDoesNotThrow(() -> auteur.setNom(nom));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"12345","Jean123",})
+    void setNomRegexInvalid(String nom) {
+        assertThrows(RegexValidationException.class, () -> auteur.setNom(nom));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Jean Dupont Jean Dupont Jean Dupont Jean Dupont Jean Dupont",})
+    void setNomLongueurMaxInvalid(String nom) {
+        assertThrows(LongueurMaximaleException.class, () -> auteur.setNom(nom));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"A",""," ","@"})
+    void setAutNomLongueurMinInvalid(String nom) {
+        assertThrows(LongueurMinimaleException.class, () -> auteur.setNom(nom));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Dupont","Marie","Sartre","Dupont "})
+    void setPrenomValid(String prenom) {
+        assertDoesNotThrow(() -> auteur.setPrenom(prenom));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"12345","Jean123","mlmlk@"})
+    void setPrenomInvalid(String prenom) {
+        assertThrows(RegexValidationException.class, () -> auteur.setPrenom(prenom));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Jonmsdfsdrfsdfsdfsdvxcvxcvxcvxcvxcvxqsdfsdfsdfsdqfsdfsdfsdqfsqdfsdfsdf",
+            "Jean Dupont Jean Dupont Jean Dupont Jean Dupont Jean Dupont",
+    })
+    void setPrenomLongueurMaximaleInvalid(String prenom) {
+        assertThrows(LongueurMaximaleException.class, () -> auteur.setPrenom(prenom));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"/photo.jpg", "/image.png", "/portrait.jpeg"})
+    void setAutPhotoValid(String autPhoto) {
+        assertDoesNotThrow(() -> auteur.setPhoto(autPhoto));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "a.jpg", "1.bmp" })
+    void setAutPhotoLongueurMinimalInvalid(String autPhoto) {
+        assertThrows(LongueurMinimaleException.class, () -> auteur.setPhoto(autPhoto));
+    }
+
+    @Test
+    void setAutPhotoNullInvalid() {
+        assertThrows(NullValueException.class, () -> auteur.setPhoto(null));
+    }
+}
+```
+</div>
 
 ---
 transition: fade-out
