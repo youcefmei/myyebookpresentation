@@ -650,7 +650,6 @@ Libraire -> Libraire_Attente : Créer un autre libraire
 Libraire_Attente -> Libraire : Changer le mot de passe
 @enduml
 
-@enduml
 ```
 
 ---
@@ -744,7 +743,7 @@ zoom: 0.65
 
 <div>
 
-<h3 class="mb-4"> Filtre CSRF </h3>
+<h1 class="mb-4"> Filtre CSRF </h1>
 
 * Routes à protéger
   * Si méthode POST - PUT - DELETE
@@ -827,7 +826,7 @@ zoom: 0.6
 <div>
 <h3 class="mb-3">Test unitaire avec Junit : Auteur</h3>
 
-* On initialise l'objet
+* Avant chaque tests, on initialise l'objet
 * Utilisation de tests paramétrés
 * Tests pour divers types d'exception
 * Tests également avec des valeurs valides
