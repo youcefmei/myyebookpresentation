@@ -918,6 +918,7 @@ layout: center
 
 * Corriger divers bugs
 * Afficher les erreurs de validation
+* Ajouter une couche service, pour la logique métier
 * Utilisation d'une datasource
 * Utiliser plusieurs environnements (dev / prod)
 * Utiliser un fichier de configuration non versionné pour le poivre
