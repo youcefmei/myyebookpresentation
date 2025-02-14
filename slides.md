@@ -27,7 +27,7 @@ addons:
   - slidev-component-scroll
 ---
 
-# Projet Myyebok
+# Projet Myyebook
 
 Gestion d'une bibliothèque
 
@@ -799,11 +799,6 @@ public class CSRFTokenFilter implements Filter {
 </div>
 
 
----
-layout: center
----
-
-<img src="/src/icons/arrow-repeat.svg" class= "h-a w-200px "/>
 
 ---
 zoom: 0.6
@@ -920,6 +915,8 @@ layout: center
 * Ajouter une couche service, pour la logique métier
 * Utilisation d'une datasource
 * Utiliser plusieurs environnements (dev / prod)
+* Compresser les images miniatures
+* Ajouter de la pagination ou un scroll infini
 * Utiliser un fichier de configuration non versionné pour le poivre
 * Tests d'intégration
 * Tests fonctionnels - Selenium
