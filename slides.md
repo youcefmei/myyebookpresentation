@@ -53,10 +53,9 @@ layout: center
 
 # Besoin et contrainte du projet
 
-- **Contexte** : Projet de groupe 
-- **Projet** : Site permettant de gérer une bibliothèque
+- **Contexte** : projet de groupe
+- **Projet** : site permettant de gérer une bibliothèque
 - **Durée** : 1 mois environ
-
 
 ---
 layout: full
@@ -799,11 +798,9 @@ public class CSRFTokenFilter implements Filter {
 </div>
 
 
-
 ---
 zoom: 0.6
 ---
-
 
 <style>
 
@@ -901,12 +898,9 @@ public class AuteurTest {
 ```
 </div>
 
-
-
 ---
 layout: center
 ---
-
 
 # A prévoir
 
