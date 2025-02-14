@@ -450,7 +450,7 @@ layout: full
 -->
 # Modèle conceptuel des données
 
-<Transform scale=0.75>
+<Transform scale=0.8>
 <img src="/src/mcd.jpg"/>
 </Transform>
 
@@ -463,7 +463,7 @@ layout: full
 - 
 -->
 # Modèle physique des données
-<Transform scale=0.75>
+<Transform scale=0.8>
 <img src="/src/mpd.jpg"/>
 </Transform>
 
