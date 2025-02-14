@@ -244,7 +244,6 @@ ActorFontName Courier
 ' ActorBackgroundColor<< Human >> DarkSeaGreen
 }
 
-
 left to right direction
 actor Libraire as l
 rectangle "Libraire" {
@@ -309,10 +308,6 @@ layout: two-cols
 <img src="/src/maquettage_mobile_accueil.svg"/>
 </Transform>
 
-
-
-
-
 ---
 layout: two-cols
 ---
@@ -360,8 +355,6 @@ layout: two-cols
 <img src="/src/capture_mobile2.png"/>
 </Transform>
 </div>
-
-
 
 
 ---
